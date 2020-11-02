@@ -107,6 +107,16 @@ footer {
   margin: 80px auto 20px;
 }
 
+footer a {
+  color: #36afd3;
+  font-size: 18px;
+  transition: 0.4s ease-in-out;
+}
+
+footer a:hover {
+  color: #0092bd;
+}
+
 .all-blogs {
   margin-bottom: 40px;
   margin-left: 20px;
