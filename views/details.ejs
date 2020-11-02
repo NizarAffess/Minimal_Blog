@@ -21,7 +21,7 @@
       const endpoint = `/blogs/${trashcan.dataset.doc}`;
 
 
-      fetch(endpoint, { // to send a delete request to that endpoint we use the fetch API and we specify the endpoint and the we need to mention the meethod which's (DELETE)
+      fetch(endpoint, {
         method: 'DELETE'
       })
         .then((response) =>  response.json())

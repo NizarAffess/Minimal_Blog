@@ -7,7 +7,7 @@ const Blog = require('./models/blog');
 const app = express();
 
 // Connect to mongodb
-const dbURI = 'mongodb+srv://Ramiz:Ramroum159@blogcluster.jnmjm.mongodb.net/blog-base?retryWrites=true&w=majority';
+const dbURI = 'mongodb+srv://<username>:<password>@blogcluster.jnmjm.mongodb.net/<databasename>?retryWrites=true&w=majority';
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log("listeneing for requests"))
   .catch(err => console.log(err));
@@ -15,18 +15,13 @@ mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
 //register view engine
 app.set('view engine', 'ejs');
 
-app.listen(3000);
 // listen for requests
+app.listen(3000);
 
 // middleware and static files
 app.use(express.static('public'));
-app.use(express.urlencoded({ extended: true})); //middleware to parse the form data
+app.use(express.urlencoded({ extended: true}));
 app.use(morgan('dev'));
-// app.use((req, res, next) => {
-//   res.locals.path = req.path;
-//   next();
-// });
-
 
 // routes
 // Home page
@@ -66,7 +61,7 @@ app.get('/blogs/create', (req, res) => {
 });
 
 app.get('/blogs/:id', (req, res) => {
-  const id = req.params.id; // thanks to mongoose
+  const id = req.params.id;
   Blog.findById(id)
     .then(result => {
       res.render('details', { title: 'Blog details', blog: result })
@@ -80,11 +75,9 @@ app.delete('/blogs/:id', (req, res) => {
   const id = req.params.id;
 
   Blog.findByIdAndDelete(id)
-  // when we use an AJAX request (like the fetch API) in Node.js we can't use redirect. We have to send some json or data back to the browser.
-  // in our case we're going to send some json data and that json data si going to have a redirect property
     .then(result => {
-      res.json({ redirect: '/blogs' }); // this will redirect to the blogs page
-    }) //When fetch is done in details.ejs and the response is sent to us. Then we get that json back to fetch().then('here'). And we get that json as json which we can't readily use. so we need to get that json data and put it inside fetch().then('here') in which we use another method response.json() and what this does, it returns another promise whereby it parses this json data into ana actual javascript object that we can use. So we can tack on another then method (right after fetch().then()) where we get access to that actual javascript object which we'll call 'data'.
+      res.json({ redirect: '/blogs' }); /
+    })
     .catch(err =>  {
       console.log(err);
     })
